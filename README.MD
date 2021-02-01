@@ -1,3 +1,3 @@
-#Testing automation+GIT
-#Selenium + JUnit
+#Testing automation+GIT with Selenium + JUnit
+
 #Testing gismeteo.ru "Change region" feature.
