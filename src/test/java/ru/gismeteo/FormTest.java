@@ -1,47 +1,44 @@
 package ru.gismeteo;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.PageFactory;
+import ru.gismeteo.Settings.DriverSettings;
+import ru.gismeteo.Pages.ChangeRegionPage;
+import ru.gismeteo.Pages.MainPage;
 
 
-public class FormTest extends DriverSettings{
+public class FormTest extends DriverSettings {
 
 
 
     @Test
-    public void FormTest() {
-/*
-Testing region change.
- */
-        driver.get("https://www.gismeteo.ru");
+    public void ChangeRegionTest() {
+        /*
+        Тестируем смену региона.
+        */
 
-        driver.manage().window().maximize();
-        //Ждем загрузки нужного элемента
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[href=\"/current-location/\"]")));
+        //Название города, которое будем вводить
+        String city="Санкт-Петербург";
+        //Инициализируем главную страницу
+        MainPage mainPage = PageFactory.initElements(driver,MainPage.class);
+        //Открываем сайт
+        mainPage.openURL();
+
         //Проверяем текущее значение региона, чтобы изначальное отличалось от проверяемого
-        String city = driver.findElement(By.className("weather_frame_title")).findElement(By.className("float_left")).getText();
-        Assert.assertNotEquals("Санкт-Петербург",city);
+        mainPage.checkCityNameNotEquals(city);
 
         //Кликаем по кнопке "Изменить пункт", которая меняет регион.
-        driver.findElement(By.cssSelector("[href=\"/current-location/\"]")).click();
+        mainPage.clickChangeRegion();
 
+        //Инициализируем страницу смены региона
+        ChangeRegionPage changeRegionPage = PageFactory.initElements(driver,ChangeRegionPage.class);
         //Ждем, пока форма загрузится
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("currentgeo_search")));
-        //Кликаем на нужную строку, чтобы стал доступен ввод текста.
-        driver.findElement(By.className("currentgeo_search")).findElement(By.className("transparent-input")).click();
-        //Вводим название города
-        driver.findElement(By.className("currentgeo_search")).findElement(By.className("search_input")).sendKeys("Санкт-Петербург");
-        //Ждем, пока появится всплывающий контейнер с результатами поиска
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("js-search-container")));
-        //Нажимаем Enter, чтобы выбрать первый по списку вариант
-        driver.findElement(By.className("currentgeo_search")).findElement(By.className("search_input")).sendKeys(Keys.RETURN);
+        changeRegionPage.waitForLoad();
+        //Вводим и применяем название города
+        changeRegionPage.inputCityName(city);
 
         //Снова проверяем текущее значение региона, проверяем с ожидаемым.
-        city = driver.findElement(By.className("weather_frame_title")).findElement(By.className("float_left")).getText();
-        Assert.assertEquals("Санкт-Петербург",city);
+        mainPage.checkCityNameEquals(city);
 
 
     }

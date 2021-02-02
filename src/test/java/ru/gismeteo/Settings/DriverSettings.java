@@ -1,4 +1,4 @@
-package ru.gismeteo;
+package ru.gismeteo.Settings;
 
 import org.junit.After;
 import org.junit.Before;
