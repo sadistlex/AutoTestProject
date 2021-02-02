@@ -31,23 +31,22 @@ public class MainPage {
     }
 
 
-    public void checkCityNameNotEquals(String city){
+    public void checkCityNameEquals(String city, boolean equals){
         //Ждем загрузки нужного элемента
         wait.until(ExpectedConditions.visibilityOfElementLocated(weatherFrame));
         //Проверяем текущее значение региона, чтобы изначальное отличалось от проверяемого
         String pageCity = driver.findElement(weatherFrame).findElement(cityValue).getText();
-        Assert.assertNotEquals(city,pageCity);
+        //Проверяем, положительное или отрицательное сравнение нам нужно.
+        if (equals){
+            Assert.assertEquals(city,pageCity);
+        }
+        else {
+            Assert.assertNotEquals(city, pageCity);
+        }
 
     }
 
-    public void checkCityNameEquals(String city){
-        //Ждем загрузки нужного элемента
-        wait.until(ExpectedConditions.visibilityOfElementLocated(weatherFrame));
-        //Gроверяем текущее значение региона, проверяем с ожидаемым.
-        String pageCity = driver.findElement(weatherFrame).findElement(cityValue).getText();
-        Assert.assertEquals(city,pageCity);
 
-    }
 
     public void clickChangeRegion(){
         driver.findElement(changeRegionBtn).click();

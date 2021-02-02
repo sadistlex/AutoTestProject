@@ -25,7 +25,7 @@ public class FormTest extends DriverSettings {
         mainPage.openURL();
 
         //Проверяем текущее значение региона, чтобы изначальное отличалось от проверяемого
-        mainPage.checkCityNameNotEquals(city);
+        mainPage.checkCityNameEquals(city,false);
 
         //Кликаем по кнопке "Изменить пункт", которая меняет регион.
         mainPage.clickChangeRegion();
@@ -38,7 +38,7 @@ public class FormTest extends DriverSettings {
         changeRegionPage.inputCityName(city);
 
         //Снова проверяем текущее значение региона, проверяем с ожидаемым.
-        mainPage.checkCityNameEquals(city);
+        mainPage.checkCityNameEquals(city,true);
 
 
     }
